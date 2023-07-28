@@ -17,7 +17,7 @@ Resources
 
 **Read or watch**:
 
--   [What Is "The Shell"?](https://alx-intranet.hbtn.io/rltoken/vwO91sqNBgRL03BLu-ueiA "What Is "The Shell"?")
+-   [What Is \"The Shell\" ?](https://alx-intranet.hbtn.io/rltoken/vwO91sqNBgRL03BLu-ueiA "What Is \"The Shell\" ?")
 -   [Navigation](https://alx-intranet.hbtn.io/rltoken/iblidp7yp6i-QpT8rDXHaA "Navigation")
 -   [Looking Around](https://alx-intranet.hbtn.io/rltoken/xEKUCnQsMH0esQ6fJU5vLA "Looking Around")
 -   [A Guided Tour](https://alx-intranet.hbtn.io/rltoken/HUhQ73fFR1GOC5nb4r-mDw "A Guided Tour")
