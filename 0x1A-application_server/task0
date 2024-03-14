@@ -1,0 +1,5 @@
+sudo apt install -y net-tools
+git clone https://+++token+++@github.com/ahmedfouadlagha/AirBnB_clone_v2.git
+sudo apt install -y python3.8-venv
+python3 -m venv airb2
+source airb2/bin/activate
