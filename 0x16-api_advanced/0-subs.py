@@ -18,22 +18,13 @@ def number_of_subscribers(subreddit):
     Returns:
         int: The number of subscribers if the subreddit is valid, 0 otherwise.
     """
-    # Construct the URL for the subreddit's about page
-    url = f'http://www.reddit.com/r/{subreddit}/about.json'
-
-    # Set a custom User-Agent header to avoid rate limiting
-    headers = {'User-Agent': 'My User Agent 1.0'}
-
-    # Send a GET request to the Reddit API
+    url = f"https://www.reddit.com/r/{subreddit}/about.json"
+    headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers)
 
-    # Check if the request was successful
     if response.status_code == 200:
-        # Parse the JSON response
         data = response.json()
-
-        # Extract and return the number of subscribers
-        return data.get('data').get('subscribers')
+        subscribers = data['data']['subscribers']
+        return subscribers
     else:
-        # If the subreddit is invalid or the request fails, return 0
         return 0
