@@ -1,29 +1,38 @@
 #!/usr/bin/python3
 """
-Function queries Reddit API and returns the number of subscribers
+Python script is designed to fetch the number of subscribers for a given
+ subreddit from Reddit’s API.
 """
-import requests
+
+# Import get function which is used to send HTTP requests.
+from requests import get
 
 
 def number_of_subscribers(subreddit):
-    """Returns the total number of subscribers
-    for a given subreddit.
     """
-    # Set the Default URL strings
-    base_url = 'https://www.reddit.com'
-    api_uri = '{base}/r/{subreddit}/about.json'.format(base=base_url,
-                                                       subreddit=subreddit)
+    defines a function that takes a subreddit name as an argument.
+    If an invalid subreddit is given, the function should return 0.
+    """
 
-    # Set an User-Agent
-    user_agent = {'User-Agent': 'Python/requests'}
-
-    # Get the Response of the Reddit API
-    res = requests.get(api_uri, headers=user_agent,
-                       allow_redirects=False)
-
-    # Checks if the subreddit is invalid
-    if res.status_code in [302, 404]:
+    # checks if the input is None or not a string
+    if subreddit is None or not isinstance(subreddit, str):
         return 0
+    #  sets the user agent for the HTTP request.
+    headers = {'User-agent': 'My browser'}
 
-    # Returns the total subscribers of the subreddit
-    return res.json().get('data').get('subscribers')
+    # formats the URL to fetch data about the subreddit.
+    url = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
+
+    # sends a GET request to the URL with the specified user agent.
+    response = get(url, headers=headers)
+
+    # converts the response from the GET request into JSON format.
+    result = response.json()
+
+    # tries to return the number of subscribers from the JSON data.
+    try:
+        return result.get('data').get('subscribers')
+
+    # If there’s an error (like the subreddit doesn’t exist), it returns 0.
+    except Exception:
+        return 0
