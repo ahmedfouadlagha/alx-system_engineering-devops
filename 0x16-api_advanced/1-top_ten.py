@@ -25,8 +25,12 @@ def top_ten(subreddit):
 
     if response.status_code == 200:
         data = response.json()
-        posts = data['data']['children']
-        for post in posts:
-            print(post['data']['title'])
+        posts = data.get('data', {}).get('children', [])
+        if posts:
+            for post in posts:
+                print(post['data']['title'])
+        else:
+            print(f"No hot posts found in r/{subreddit}")
     else:
-        print(None)
+        print(f"Failed to fetch data from r/{subreddit}")
+        
