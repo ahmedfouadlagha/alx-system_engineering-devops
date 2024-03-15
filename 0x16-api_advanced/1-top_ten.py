@@ -38,10 +38,3 @@ def top_ten(subreddit):
     # Print message for invalid subreddit or other errors
     print(f"Error: {response.status_code} - Subreddit might not exist.")
 
-# Example usage (assuming 1-main.py is in the same directory)
-if __name__ == "__main__":
-  import sys
-  if len(sys.argv) < 2:
-    print("Please pass an argument for the subreddit to search.")
-  else:
-    top_ten(sys.argv[1])
