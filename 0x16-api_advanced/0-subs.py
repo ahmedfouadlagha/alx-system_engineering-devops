@@ -1,18 +1,21 @@
 #!/usr/bin/python3
+"""0-subs
+
+Run ./0-main.py programming or ./0-main.py this_is_a_fake_subreddit for testing
 """
-    Uses Reddit API to print the number of subscribers of a subreddit
-"""
+
 import requests
-import sys
 
 
 def number_of_subscribers(subreddit):
-    '''gets num of subs of a subreddit'''
-    headers = {'User-agent': 'test'}
-    subs = requests.get('https://www.reddit.com/r/{}/about.json'.format(
-        sys.argv[1]), allow_redirects=False, headers=headers)
-
-    if subs.status_code == 200:
-        return (subs.json()['data']['subscribers'])
+    """Function that queries the Reddit API and returns the number of
+    subscribers (not active users, total subscribers) for a given subreddit.
+    If an invalid subreddit is given, the function should return 0.
+    """
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    headers = {"User-Agent": "0-subs.py"}
+    response = requests.get(url, headers=headers, allow_redirects=False)
+    if response.status_code == 200:
+        return response.json().get("data").get("subscribers")
     else:
         return 0
