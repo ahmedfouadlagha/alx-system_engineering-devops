@@ -1,18 +1,21 @@
 #!/usr/bin/python3
-""" module 1-top_ten.py """
-import requests
-from operator import itemgetter
+"""Task 1 Module"""
+
 
 def top_ten(subreddit):
-    url = f'https://www.reddit.com/r/{subreddit}/top.json?limit=10'
-    headers = {'User-Agent': 'my-reddit-api-client'}
-    response = requests.get(url, headers=headers)
-    data = response.json()
-    
-    if data['kind'] == 't5':
-        top_posts = data['data']['children']
-        top_posts = sorted(top_posts, key=lambda x: x['data']['score'], reverse=True)
-        top_posts = [{'title': post['data']['title'], 'score': post['data']['score']} for post in top_posts]
-        return top_posts
+    """Queris and returns
+    top 10 posts"""
+    import requests
+
+    sub_info = requests.get(
+        "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit),
+        headers={"User-Agent": "My-User-Agent"},
+        allow_redirects=False,
+    )
+    if sub_info.status_code >= 300:
+        print("None")
     else:
-        return []
+        [
+            print(child.get("data").get("title"))
+            for child in sub_info.json().get("data").get("children")
+        ]
