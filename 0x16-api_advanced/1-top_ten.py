@@ -1,47 +1,37 @@
 #!/usr/bin/python3
-
 """
-Python function that queries the Reddit API and prints the titles of
- the first 10 hot posts listed for a given subreddit.
+Script to print hot posts on a given Reddit subreddit.
 """
 
-from requests import get
+import requests
 
 
 def top_ten(subreddit):
-    """
-    defines a function called top_ten that takes a single argument:
-    the name of a subreddit.
-    """
-    # checks if the subreddit argument is None or not a string
-    if subreddit is None or not isinstance(subreddit, str):
+    """Print the titles of the 10 hottest posts on a given subreddit."""
+    # Construct the URL for the subreddit's hot posts in JSON format
+    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
+
+    # Define headers for the HTTP request, including User-Agent
+    headers = {
+        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+    }
+
+    # Define parameters for the request, limiting the number of posts to 10
+    params = {
+        "limit": 10
+    }
+
+    # Send a GET request to the subreddit's hot posts page
+    response = requests.get(url, headers=headers, params=params,
+                            allow_redirects=False)
+
+    # Check if the response status code indicates a not-found error (404)
+    if response.status_code == 404:
         print("None")
+        return
 
-    # sets the user agent for the HTTP request
-    headers = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
+    # Parse the JSON response and extract the 'data' section
+    results = response.json().get("data")
 
-    # Sets the query parameter limit to 10.
-    # It limits the number of posts returned by the Reddit API to 10
-    p = {'limit': 10}
-
-    # constructs the URL to fetch data about the subreddit
-    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
-
-    # sends an HTTP GET request to the specified URL using the user agent
-    # and query parameters set earlier.
-    response = get(url, headers=headers, params=p)
-
-    # converts the response from the GET request into a Python dictionary
-    # by parsing the JSON data
-    results = response.json()
-
-    # extracts the list of posts (referred to as “children”) from the JSON data
-    try:
-        my_data = results.get('data').get('children')
-
-    # iterates through the list of posts and prints the title of each post.
-        for i in my_data:
-            print(i.get('data').get('title'))
-
-    except Exception:
-        print("None")
+    # Print the titles of the top 10 hottest posts
+    [print(c.get("data").get("title")) for c in results.get("children")]
