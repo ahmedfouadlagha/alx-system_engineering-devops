@@ -2,16 +2,26 @@
 """ module 1-top_ten.py """
 import requests
 
-
-def top_ten(subreddit):
-    """Prints the titles of the top 10 hot posts for a given subreddit"""
-
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    headers = {"User-Agent": "Test"}
-    response = requests.get(url, headers=headers, allow_redirects=False)
-    if response.status_code == 200:
-        for i in range(10):
-            print(response.json().get("data").get("children")[i]
-                  .get("data").get("title"))
-    else:
-        print(None)
+def number_of_subscribers(subreddit):
+    """
+    Queries the Reddit API and returns the number of subscribers for a given subreddit.
+    If not a valid subreddit, returns 0.
+    """
+    url = f'https://www.reddit.com/r/{subreddit}/about.json'
+    headers = {'User-Agent': 'my-reddit-api-client'}
+    
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        if data['kind'] == 't5':
+            return data['data']['subscribers']
+        else:
+            return 0
+    except requests.exceptions.HTTPError as err:
+        if response.status_code == 404:
+            return 0
+        else:
+            raise err
