@@ -1,27 +1,18 @@
 #!/usr/bin/python3
 """ module 1-top_ten.py """
 import requests
+from operator import itemgetter
 
-def number_of_subscribers(subreddit):
-    """
-    Queries the Reddit API and returns the number of subscribers for a given subreddit.
-    If not a valid subreddit, returns 0.
-    """
-    url = f'https://www.reddit.com/r/{subreddit}/about.json'
+def top_ten(subreddit):
+    url = f'https://www.reddit.com/r/{subreddit}/top.json?limit=10'
     headers = {'User-Agent': 'my-reddit-api-client'}
+    response = requests.get(url, headers=headers)
+    data = response.json()
     
-    try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        
-        data = response.json()
-        
-        if data['kind'] == 't5':
-            return data['data']['subscribers']
-        else:
-            return 0
-    except requests.exceptions.HTTPError as err:
-        if response.status_code == 404:
-            return 0
-        else:
-            raise err
+    if data['kind'] == 't5':
+        top_posts = data['data']['children']
+        top_posts = sorted(top_posts, key=lambda x: x['data']['score'], reverse=True)
+        top_posts = [{'title': post['data']['title'], 'score': post['data']['score']} for post in top_posts]
+        return top_posts
+    else:
+        return []
