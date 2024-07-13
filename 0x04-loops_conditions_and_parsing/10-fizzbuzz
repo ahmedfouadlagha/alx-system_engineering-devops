@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
-# This script is used for FizzBuzz game
-n=1
+# displays Best School 10 times.
 
-while [ $n -le 100 ]
+COUNTER=1
+while [ $COUNTER -lt 101 ]
 do
-    if [ $(( n % 3 )) -eq 0 -a $(( n % 5 )) -eq 0 ]
+    if [ $((COUNTER%15)) = 0 ]
     then
         echo "FizzBuzz"
-    elif [ $(( n % 3 )) -eq 0 ]
+    elif [ $((COUNTER%3)) = 0 ]
     then
         echo "Fizz"
-    elif [ $(( n % 5 )) -eq 0 ]
+    elif [ $((COUNTER%5)) = 0 ]
     then
         echo "Buzz"
     else
-        echo $n
+        echo "$COUNTER"
     fi
-    n=$(( n + 1 ))
+    let COUNTER+=1
 done
