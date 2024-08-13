@@ -12,7 +12,7 @@ def number_of_subscribers(subreddit):
     Returns:
         int: The number of subscribers if the subreddit exists, 0 otherwise.
     """
-    URL = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    URL = f"https://www.reddit.com/r/{subreddit}/about.json"
     USER_AGENT = "com.holbertonschool.myredditscript:0.0.1 (by /u/dmaring)"
     headers = {'User-Agent': USER_AGENT}
     
