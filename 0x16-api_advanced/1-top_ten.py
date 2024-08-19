@@ -1,17 +1,19 @@
 #!/usr/bin/python3
-"""Script that returns top 10 hot posts of a subreddit"""
+''' task 1 module'''
+
 import requests
+import sys
 
 
 def top_ten(subreddit):
-    """Function that prints top 10 posts of a subreddit"""
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
-    response = requests.get(url, headers={'User-Agent': 'app/1.0'})
-    data = response.json()
+    '''gets 10 hottest posts of a subreddit'''
+    headers = {'User-agent': 'test23'}
+    url = 'https://www.reddit.com/r/'
+    posts = requests.get(url + '{}/hot.json?limit=10'.format(
+        sys.argv[1]), allow_redirects=False, headers=headers)
 
-    if response.status_code == 200:
-        posts = data['data']['children']
-        for post in posts:
+    if posts.status_code == 200:
+        for post in posts.json()['data']['children']:
             print(post['data']['title'])
     else:
         print(None)
