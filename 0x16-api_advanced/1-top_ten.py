@@ -9,9 +9,10 @@ def top_ten(subreddit):
 
     try:
         response = requests.get(
-            url, headers={'User-Agent': 'app/1.0'}, allow_redirects=False
+            url, headers={'User-Agent': 'Mozilla/5.0'}, allow_redirects=False
         )
 
+        # Check if the response status code is 200 (OK)
         if response.status_code == 200:
             try:
                 data = response.json()
@@ -23,9 +24,11 @@ def top_ten(subreddit):
                 else:
                     print(None)
             except ValueError:
+                # Handle JSON decoding error
                 print(None)
         else:
             print(None)
 
     except requests.RequestException:
+        # Handle network-related errors
         print(None)
